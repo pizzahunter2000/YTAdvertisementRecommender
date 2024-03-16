@@ -1,5 +1,7 @@
 package com.example.project.controller;
 
+import com.example.project.controller.dto_entity_converter.ChannelConverter;
+import com.example.project.dto.ChannelDTO;
 import com.example.project.entity.YTChannel;
 import com.example.project.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class ChannelController {
     @Autowired
     private ChannelService channelService;
 
+    @Autowired
+    private ChannelConverter converter;
+
     @GetMapping
     public List<YTChannel> getAllChannels(){
         return channelService.getAllChannels();
@@ -25,7 +30,8 @@ public class ChannelController {
     }
 
     @PostMapping
-    public YTChannel saveChannel(@RequestBody YTChannel channel){
+    public YTChannel saveChannel(@RequestBody ChannelDTO channelDTO){
+        YTChannel channel = converter.convertToEntity(channelDTO);
         return channelService.saveChannel(channel);
     }
 

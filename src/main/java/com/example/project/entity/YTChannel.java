@@ -1,6 +1,7 @@
 package com.example.project.entity;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +28,14 @@ public class YTChannel {
     private int avgNumberOfViews;
     private int nrOfSubscribers;
 
-    public YTChannel(UUID id, String name, int avgNumberOfViews, int nrOfSubscribers) {
+    public YTChannel(UUID id, String name, int avgNumberOfViews, int nrOfSubscribers
+                    , List<Video> videos, List<Tag> tags) {
         this.id = id;
         this.name = name;
         this.avgNumberOfViews = avgNumberOfViews;
         this.nrOfSubscribers = nrOfSubscribers;
-        videos = new ArrayList<>();
-        tags = new ArrayList<>();
+        this.videos = videos;
+        this.tags = tags;
     }
 
     public YTChannel() {

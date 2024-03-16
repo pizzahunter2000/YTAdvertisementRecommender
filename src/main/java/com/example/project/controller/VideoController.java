@@ -1,6 +1,11 @@
 package com.example.project.controller;
 
+import com.example.project.controller.dto_entity_converter.Converter;
+import com.example.project.controller.dto_entity_converter.VideoConverter;
+import com.example.project.dto.VideoDTO;
 import com.example.project.entity.Video;
+import com.example.project.service.ChannelService;
+import com.example.project.service.TagService;
 import com.example.project.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,10 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private VideoConverter converter;
+
+
     @GetMapping
     public List<Video> getAllVideos() {
         return videoService.getAllVideos();
@@ -25,7 +34,8 @@ public class VideoController {
     }
 
     @PostMapping
-    public Video saveVideo(@RequestBody Video video) {
+    public Video saveVideo(@RequestBody VideoDTO videoDTO) {
+        Video video = converter.convertToEntity(videoDTO);
         return videoService.saveVideo(video);
     }
 

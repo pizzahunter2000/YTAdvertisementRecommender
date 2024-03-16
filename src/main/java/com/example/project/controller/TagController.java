@@ -1,5 +1,7 @@
 package com.example.project.controller;
 
+import com.example.project.controller.dto_entity_converter.TagConverter;
+import com.example.project.dto.TagDTO;
 import com.example.project.entity.Tag;
 import com.example.project.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private TagConverter tagConverter;
+
     @GetMapping
     public List<Tag> getAllTags(){
         return tagService.getAllTags();
@@ -25,7 +30,8 @@ public class TagController {
     }
 
     @PostMapping
-    public Tag saveTag(@RequestBody Tag tag){
+    public Tag saveTag(@RequestBody TagDTO tagDTO){
+        Tag tag = tagConverter.convertToEntity(tagDTO);
         return tagService.saveTag(tag);
     }
 

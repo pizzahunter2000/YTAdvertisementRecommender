@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private final UUID id;
     private String title;
     @ManyToOne
     @JoinColumn(name = "channel")
@@ -46,6 +46,11 @@ public class Video {
 
     public Video() {
         tags = new ArrayList<>();
+        id = null;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getTitle() {
