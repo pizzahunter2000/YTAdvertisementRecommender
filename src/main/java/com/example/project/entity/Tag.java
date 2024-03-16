@@ -16,19 +16,20 @@ public class Tag {
     private UUID id;
     private String name;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "tags_rel",
-//            joinColumns = @JoinColumn(name = "from_tag"),
-//            inverseJoinColumns = @JoinColumn(name = "to_tag")
-//    )
-//    @MapKeyJoinColumn(name = "to_tag")
-//    private Map<Tag, Double> relatedTags;
+    @ElementCollection
+    @JoinTable(
+            name = "tags_rel",
+            joinColumns = @JoinColumn(name = "tag_from")
+            //inverseJoinColumns = @JoinColumn(name = "tag_to")
+    )
+    @MapKeyJoinColumn(name = "tag_to")
+    @Column(name = "relation")
+    private Map<Tag, Double> relatedTags;
 
-    public Tag(UUID id, String name) {
+    public Tag(UUID id, String name, HashMap<Tag, Double> relatedTags) {
         this.id = id;
         this.name = name;
-        //relatedTags = new HashMap<>();
+        this.relatedTags = relatedTags;
     }
 
     public Tag() {}
@@ -41,16 +42,16 @@ public class Tag {
         this.name = name;
     }
 
-//    public Map<Tag, Double> getRelatedTags() {
-//        return relatedTags;
-//    }
-//
-//    public void setRelatedTags(Map<Tag, Double> relatedTags) {
-//        this.relatedTags = relatedTags;
-//    }
-//
-//    public void addRelatedTag(Tag tag, Double similarity) {
-//        relatedTags.put(tag, similarity);
-//        tag.getRelatedTags().put(this, similarity);
-//    }
+    public Map<Tag, Double> getRelatedTags() {
+        return relatedTags;
+    }
+
+    public void setRelatedTags(Map<Tag, Double> relatedTags) {
+        this.relatedTags = relatedTags;
+    }
+
+    public void addRelatedTag(Tag tag, Double similarity) {
+        relatedTags.put(tag, similarity);
+        tag.getRelatedTags().put(this, similarity);
+    }
 }
