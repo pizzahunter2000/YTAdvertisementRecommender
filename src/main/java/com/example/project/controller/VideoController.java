@@ -39,6 +39,22 @@ public class VideoController {
         return videoService.saveVideo(video);
     }
 
+    @PutMapping("/{id}")
+    public Video updateVideo(@PathVariable UUID id, @RequestBody VideoDTO videoDTO) {
+        Video existingVideo = videoService.getVideoById(id);
+        if (existingVideo != null) {
+            Video updatedVideo = converter.convertToEntity(videoDTO);
+            existingVideo.setChannel(updatedVideo.getChannel());
+            existingVideo.setTags(updatedVideo.getTags());
+            existingVideo.setTitle(updatedVideo.getTitle());
+            existingVideo.setNrOfViews(updatedVideo.getNrOfViews());
+            return videoService.saveVideo(existingVideo);
+        } else {
+            return saveVideo(videoDTO);
+        }
+    }
+
+
     @DeleteMapping("/{id}")
     public void deleteVideoById(@PathVariable UUID id) {
         videoService.deleteVideoById(id);
