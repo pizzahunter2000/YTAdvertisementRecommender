@@ -68,7 +68,30 @@ To be continued...
 - Reading all the Channels: GET localhost:8080/channels
 - Reading all the Tags: GET localhost:8080/tags
 - Inserting (Create) Video: POST localhost:8080/videos
+```js
+{
+    "title": "Florier Series",
+    "channelId": "9bb6642a-6fde-44ca-b189-c12eb1f567d8",
+    "tagIds": [
+        "e2a28949-b1ea-4559-8b6c-f5456c2b5400",
+        "fc67df22-9407-45b2-a969-0c8dfa90b570"
+    ],
+    "nrOfViews": 700000
+}
+```
 - Inserting (Create) Channel: POST localhost:8080/channels
+```js
+{
+    "name": "3blues1brown",
+    "videoIds": [],
+    "tagIds": [
+        "e2a28949-b1ea-4559-8b6c-f5456c2b5400",
+        "fc67df22-9407-45b2-a969-0c8dfa90b570"
+    ],
+    "avgNrOfViews": 789000,
+    "nrOfSubscribers": 330000
+}
+```
 - Inserting (Create) Tag: POST localhost:8080/tags
 ```js
 {
@@ -93,6 +116,9 @@ To be continued...
 }
 ```
 - Update Channel: PUT localhost:8080/channels/{id}
+```js
+
+```
 - Update Tag: PUT localhost:8080/tags/{id}
 
 - Deleting a Video by ID: DELETE localhost:8080/videos/{id}
