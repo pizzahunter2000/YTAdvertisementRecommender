@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/auth/role")
 public class RoleController {
     @Autowired
     private RoleService roleService;
@@ -45,5 +45,10 @@ public class RoleController {
         } else {
             return roleService.saveRole(newRole);
         }
+    }
+
+    @DeleteMapping("/{id}")
+    private void deleteRoleById(@PathVariable UUID id){
+        roleService.deleteRoleById(id);
     }
 }
