@@ -1,10 +1,8 @@
 package com.example.project.controller;
 
-import com.example.project.controller.dto_entity_converter.TagConverter;
-import com.example.project.dto.ChannelDTO;
+import com.example.project.dto_entity_converter.TagConverter;
 import com.example.project.dto.TagDTO;
 import com.example.project.entity.Tag;
-import com.example.project.entity.YTChannel;
 import com.example.project.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +38,13 @@ public class TagController {
     @PutMapping("/{id}")
     public Tag updateTag(@PathVariable UUID id, @RequestBody TagDTO tagDTO) {
         Tag existingTag = tagService.getTagById(id);
+        Tag updatedTag = converter.convertToEntity(tagDTO);
         if (existingTag != null) {
-            Tag updatedTag = converter.convertToEntity(tagDTO);
             existingTag.setName(updatedTag.getName());
             existingTag.setRelatedTags(updatedTag.getRelatedTags());
             return tagService.saveTag(existingTag);
         } else {
-            return saveTag(tagDTO);
+            return tagService.saveTag(updatedTag);
         }
     }
 

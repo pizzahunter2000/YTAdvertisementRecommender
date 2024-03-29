@@ -1,4 +1,4 @@
-package com.example.project.controller.dto_entity_converter;
+package com.example.project.dto_entity_converter;
 
 import com.example.project.dto.TagDTO;
 import com.example.project.entity.Tag;

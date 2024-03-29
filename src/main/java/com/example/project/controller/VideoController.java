@@ -1,11 +1,8 @@
 package com.example.project.controller;
 
-import com.example.project.controller.dto_entity_converter.Converter;
-import com.example.project.controller.dto_entity_converter.VideoConverter;
+import com.example.project.dto_entity_converter.VideoConverter;
 import com.example.project.dto.VideoDTO;
 import com.example.project.entity.Video;
-import com.example.project.service.ChannelService;
-import com.example.project.service.TagService;
 import com.example.project.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,15 +39,15 @@ public class VideoController {
     @PutMapping("/{id}")
     public Video updateVideo(@PathVariable UUID id, @RequestBody VideoDTO videoDTO) {
         Video existingVideo = videoService.getVideoById(id);
+        Video updatedVideo = converter.convertToEntity(videoDTO);
         if (existingVideo != null) {
-            Video updatedVideo = converter.convertToEntity(videoDTO);
             existingVideo.setChannel(updatedVideo.getChannel());
             existingVideo.setTags(updatedVideo.getTags());
             existingVideo.setTitle(updatedVideo.getTitle());
             existingVideo.setNrOfViews(updatedVideo.getNrOfViews());
             return videoService.saveVideo(existingVideo);
         } else {
-            return saveVideo(videoDTO);
+            return videoService.saveVideo(updatedVideo);
         }
     }
 
