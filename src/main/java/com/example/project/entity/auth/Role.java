@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private final UUID id;
 
     private String name;
 
@@ -18,7 +18,9 @@ public class Role {
         this.name = name;
     }
 
-    public Role() {}
+    public Role() {
+        this.id = null;
+    }
 
     public UUID getId() {
         return id;

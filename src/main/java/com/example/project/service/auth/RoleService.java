@@ -11,8 +11,12 @@ import java.util.UUID;
 
 @Service
 public class RoleService {
+    private final RoleRepository roleRepository;
+
     @Autowired
-    private RoleRepository roleRepository;
+    public RoleService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     public Role getRoleById(UUID id){
         return roleRepository.findById(id).orElse(null);

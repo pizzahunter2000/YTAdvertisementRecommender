@@ -5,17 +5,17 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "public")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private final UUID id;
 
     private String name;
 
     private String email;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role")
     private Role role;
 
@@ -26,7 +26,10 @@ public class User {
         this.role = role;
     }
 
-    public User() {}
+    public User() {
+        this.id = null;
+        this.role = null;
+    }
 
     public UUID getId() {
         return id;

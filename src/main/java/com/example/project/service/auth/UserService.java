@@ -10,15 +10,19 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public User getUserById(UUID id){
-        return userRepository.findById(id).orElse(null);
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    public User getUserById(UUID id){
+        return userRepository.findById(id).orElse(null);
     }
 
     public User saveUser(User user){

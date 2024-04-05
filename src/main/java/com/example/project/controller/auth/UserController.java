@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/auth/user")
+@RequestMapping("/auth/users")
 public class UserController {
     @Autowired
     private UserService userService;

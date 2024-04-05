@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/auth/role")
+@RequestMapping("/auth/roles")
 public class RoleController {
     @Autowired
     private RoleService roleService;
