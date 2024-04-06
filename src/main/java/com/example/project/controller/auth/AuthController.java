@@ -1,11 +1,13 @@
 package com.example.project.controller.auth;
 
+import com.example.project.dto.auth.AuthResponseDTO;
 import com.example.project.dto.auth.LoginDTO;
 import com.example.project.dto.auth.RegisterDTO;
 import com.example.project.entity.auth.Role;
 import com.example.project.entity.auth.UserEntity;
 import com.example.project.repository.auth.RoleRepository;
 import com.example.project.repository.auth.UserRepository;
+import com.example.project.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +32,17 @@ public class AuthController {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private TokenGenerator tokenGenerator;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository, RoleRepository roleRepository,
-                          PasswordEncoder passwordEncoder) {
+                          PasswordEncoder passwordEncoder, TokenGenerator tokenGenerator) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenGenerator = tokenGenerator;
     }
 
     @PostMapping("/register")
@@ -63,17 +67,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Validated @RequestBody LoginDTO loginDTO, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return new ResponseEntity<>("Invalid input!", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<AuthResponseDTO> login(@Validated @RequestBody LoginDTO loginDTO){
+//        if(bindingResult.hasErrors()){
+//            return new ResponseEntity<>("Invalid input!", HttpStatus.BAD_REQUEST);
+//        }
         try{
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
                             loginDTO.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return new ResponseEntity<>("User signed in successfully!", HttpStatus.OK);
+            String token = tokenGenerator.generateToken(authentication);
+            return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
         } catch (Exception e) {
             throw new BadCredentialsException("Incorrect username or password");
         }
