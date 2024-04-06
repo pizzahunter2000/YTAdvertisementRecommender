@@ -15,6 +15,9 @@ public class UserConverter implements Converter<UserDTO, User> {
 
     @Override
     public User convertToEntity(UserDTO dto) {
+        if(dto.getRole() == null){
+            return null;
+        }
         Role role = roleService.getRoleById(dto.getRole());
         return new User(dto.getId(), dto.getName(), dto.getEmail(), role);
     }

@@ -1,10 +1,18 @@
 package com.example.project.dto.auth;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.UUID;
 
 public class UserDTO {
     private UUID id;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
+    @Email
     private String email;
     private UUID role;
 

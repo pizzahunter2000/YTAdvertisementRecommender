@@ -3,6 +3,8 @@ package com.example.project.service.auth;
 import com.example.project.entity.auth.User;
 import com.example.project.repository.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +27,9 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User saveUser(User user){
-        return userRepository.save(user);
+    public ResponseEntity<User> saveUser(User user){
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     public void deleteUserById(UUID id){

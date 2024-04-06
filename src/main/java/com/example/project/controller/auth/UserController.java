@@ -5,6 +5,10 @@ import com.example.project.dto_entity_converter.auth.UserConverter;
 import com.example.project.entity.auth.User;
 import com.example.project.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,23 +34,37 @@ public class UserController {
     }
 
     @PostMapping
-    private User saveUser(@RequestBody UserDTO userDTO) {
-        User user = userConverter.convertToEntity(userDTO);
-        return userService.saveUser(user);
+    private ResponseEntity<?> saveUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        } else {
+            User user = userConverter.convertToEntity(userDTO);
+            if(user == null){
+                return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+            }
+            ResponseEntity<User> responseEntity = userService.saveUser(user);
+            return new ResponseEntity<>(responseEntity.getBody(), responseEntity.getStatusCode());
+
+        }
     }
 
     @PutMapping("/{id}")
-    private User updateUser(@PathVariable UUID id, @RequestBody UserDTO userDTO){
-        User existingUser = userService.getUserById(id);
-        User updatedUser = userConverter.convertToEntity(userDTO);
-        if(existingUser != null){
-            existingUser.setName(updatedUser.getName());
-            existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setRole(updatedUser.getRole());
-            return userService.saveUser(existingUser);
-        } else {
-            return userService.saveUser(updatedUser);
+    private ResponseEntity<?> updateUser(@PathVariable UUID id, @Validated @RequestBody UserDTO userDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        } else{
+            User existingUser = userService.getUserById(id);
+            User updatedUser = userConverter.convertToEntity(userDTO);
+            if(existingUser != null){
+                existingUser.setName(updatedUser.getName());
+                existingUser.setEmail(updatedUser.getEmail());
+                existingUser.setRole(updatedUser.getRole());
+                return userService.saveUser(existingUser);
+            } else {
+                return userService.saveUser(updatedUser);
+            }
         }
+
     }
 
     @DeleteMapping("/{id}")
