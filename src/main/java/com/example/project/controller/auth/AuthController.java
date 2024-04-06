@@ -1,5 +1,6 @@
 package com.example.project.controller.auth;
 
+import com.example.project.dto.auth.LoginDTO;
 import com.example.project.dto.auth.RegisterDTO;
 import com.example.project.entity.auth.Role;
 import com.example.project.entity.auth.UserEntity;
@@ -9,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -54,5 +60,23 @@ public class AuthController {
         userRepository.save(user);
 
         return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Validated @RequestBody LoginDTO loginDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>("Invalid input!", HttpStatus.BAD_REQUEST);
+        }
+        try{
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
+                            loginDTO.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return new ResponseEntity<>("User signed in successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            throw new BadCredentialsException("Incorrect username or password");
+        }
+
     }
 }

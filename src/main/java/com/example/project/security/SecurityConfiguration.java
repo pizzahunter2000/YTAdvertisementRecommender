@@ -40,27 +40,12 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable()) // IT TOOK AT LEAST 2 HOURS TO DISABLE THIS MF TO TEST POST, PUT, DELETE
                 .authorizeRequests()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET).permitAll()
                 .requestMatchers(HttpMethod.POST).permitAll()
                 .requestMatchers(HttpMethod.PUT).permitAll()
                 .requestMatchers(HttpMethod.DELETE).permitAll();
 
         return http.build();
-    }
-
-    @Bean
-    public UserDetailsService users(){
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("password")
-                .roles("ADMIN")
-                .build();
-        UserDetails user = User.builder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, user);
     }
 
     @Bean
