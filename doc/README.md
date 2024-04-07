@@ -21,7 +21,9 @@ The goal of this app is to provide a platform for advertising companies in order
 
 - __Actors__ and their __actions__: 
     - _Advertising Company_ - queries the potential success of their add and recommendations for successful collaborations.
-    - _YouTube Observer_ - updates database upon changes in views, new videos, channels, or adds data on demand.
+    - _YouTube Observer - Admin_ - updates database upon changes in views, new videos, channels, or adds data on demand.
+
+    ![alt text](use_case_diagram.png)
 
 ### 2.2. Class Diagram
 
@@ -34,6 +36,10 @@ In this design there are 3 classes:
 
 The Video-YTChannel relation is slightly redundant, however, it is necessary for quicker access of related instances, which in this app is key because these are the most used operations (find Channel of a Video, find Videos of a Channel, respectively).
 
+The Authentication part of the app has the following 2 classes:
+- __UserEntity__: this entity represents the users of the app that need to be authenticated when they log in or register. Additionally, users have to be authorized based on their Roles, that is the other class of the authentication part.
+- __Role__: This can be User or Admin, for now, it is enough to have 2 types of users and should not be modifiable by any User. It is a field of the _UserEntity_ and its default value in the database is the User Role's ID.
+
 
 ### 2.3. Database Diagram
 
@@ -41,16 +47,20 @@ The Video-YTChannel relation is slightly redundant, however, it is necessary for
 
 Compared to the Class diagram, more tables are needed to represent the One-To-Many (_channel-video_) and Many-To-Many relationships (_tag-tag_, _channel-tag_).
 
+For this app, the User and Role tables have a One-To-Many relationship, so a User can only be a simple user or an admin. In the future, this might have to change and the code has to be modified, so when creating an Authentication it gets a list of Roles, rather than creating a list with 1 element.
+
 # 3. Implementation
 ### 3.1. Backend
 For the backend of the app, Java Spring framework has been used, and the following package structure is used:
 - controller - used to connect API calls with service level
-    - converter - converts DTOs to Entities. This is important because the app gets DTOs from API calls instead of Entities, while the Controllers require Entities.
+- converter - converts DTOs to Entities. This is important because the app gets DTOs from API calls instead of Entities, while the Controllers require Entities
 - dto - DTOs (Data Transfer Objects) have the same parameters as the Entities, however instead of references to other objects, they have their IDs.
 - entity - represents the model package of the app.
 - exception
 - repository - interfaces extending the JpaRepository.
+- security - contains the SecurityConfiguration file that contains the methods used to _encode password_, create _SecurityFilterChain_, generate _JWT token_, authenticate and authorize users
 - service - layer that connects the database to the app: takes data from the database and creates entity instances or takes entity instances and modifies the database.
+- validation - contains validation rules (REGEX) for certain types of fields (email, username, password)
 
 Cascading tables to be solved...
 
@@ -124,3 +134,20 @@ To be continued...
 - Deleting a Video by ID: DELETE localhost:8080/videos/{id}
 - Deleting a Channel by ID: DELETE localhost:8080/channels/{id}
 - Deleting a Tag by ID: DELETE localhost:8080/tags/{id}
+
+Authentication testing (see POSTMAN):
+- Register valid user
+- Register invalid user x5 -> invalid email, username, password
+- Login existing user
+- Login unknown user
+
+## 5. Demo
+
+Upcoming...
+
+## 6. Future Improvements
+1. Use __Observer__ design pattern to notify Channel when views of Video have changed, so it modifies the average view count.
+2. Use __Strategy__ pattern to use different methods (strategies) to calculate the potential success of an add on a certain Channel.
+
+## 7. Bibliography
+1. https://www.youtube.com/watch?v=BRl2ZHqF-wQ&list=RDCMUCCqmbn5-z_t15tYbUreWcNA&start_radio=1&rv=BRl2ZHqF-wQ&t=0
