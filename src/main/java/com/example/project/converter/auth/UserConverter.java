@@ -1,7 +1,7 @@
-package com.example.project.dto_entity_converter.auth;
+package com.example.project.converter.auth;
 
 import com.example.project.dto.auth.UserDTO;
-import com.example.project.dto_entity_converter.Converter;
+import com.example.project.converter.Converter;
 import com.example.project.entity.auth.Role;
 import com.example.project.entity.auth.UserEntity;
 import com.example.project.service.auth.RoleService;

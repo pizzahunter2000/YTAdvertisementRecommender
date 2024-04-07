@@ -1,4 +1,4 @@
-package com.example.project.dto_entity_converter;
+package com.example.project.converter;
 
 public interface Converter <D, E>{
     E convertToEntity(D dto);

@@ -1,7 +1,7 @@
 package com.example.project.controller.auth;
 
 import com.example.project.dto.auth.RoleDTO;
-import com.example.project.dto_entity_converter.auth.RoleConverter;
+import com.example.project.converter.auth.RoleConverter;
 import com.example.project.entity.auth.Role;
 import com.example.project.service.auth.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

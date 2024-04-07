@@ -1,7 +1,7 @@
 package com.example.project.controller.auth;
 
 import com.example.project.dto.auth.UserDTO;
-import com.example.project.dto_entity_converter.auth.UserConverter;
+import com.example.project.converter.auth.UserConverter;
 import com.example.project.entity.auth.UserEntity;
 import com.example.project.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

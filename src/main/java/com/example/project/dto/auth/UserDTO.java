@@ -1,5 +1,7 @@
 package com.example.project.dto.auth;
 
+import com.example.project.validation.ValidPassword;
+import com.example.project.validation.ValidUsername;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -9,11 +11,13 @@ public class UserDTO {
     private UUID id;
 
     @NotBlank
+    @ValidUsername
     private String name;
 
     @NotBlank
     @Email
     private String email;
+    @ValidPassword
     private String password;
     private UUID role;
 

@@ -1,6 +1,6 @@
 package com.example.project.controller;
 
-import com.example.project.dto_entity_converter.TagConverter;
+import com.example.project.converter.TagConverter;
 import com.example.project.dto.TagDTO;
 import com.example.project.entity.Tag;
 import com.example.project.service.TagService;

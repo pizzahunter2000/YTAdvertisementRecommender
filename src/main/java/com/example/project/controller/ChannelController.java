@@ -1,6 +1,6 @@
 package com.example.project.controller;
 
-import com.example.project.dto_entity_converter.ChannelConverter;
+import com.example.project.converter.ChannelConverter;
 import com.example.project.dto.ChannelDTO;
 import com.example.project.entity.YTChannel;
 import com.example.project.service.ChannelService;

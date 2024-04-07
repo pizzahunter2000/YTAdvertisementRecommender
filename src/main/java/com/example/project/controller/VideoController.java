@@ -1,6 +1,6 @@
 package com.example.project.controller;
 
-import com.example.project.dto_entity_converter.VideoConverter;
+import com.example.project.converter.VideoConverter;
 import com.example.project.dto.VideoDTO;
 import com.example.project.entity.Video;
 import com.example.project.service.VideoService;
