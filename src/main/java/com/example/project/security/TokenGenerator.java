@@ -34,7 +34,7 @@ public class TokenGenerator {
 
     public String getUsernameFromJWT(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(SecurityConstants.JWT_SECRET)
+                .setSigningKey(SecurityConstants.JWT_SECRET.getBytes())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
@@ -44,7 +44,7 @@ public class TokenGenerator {
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                    .setSigningKey(JWT_SECRET)
+                    .setSigningKey(JWT_SECRET.getBytes())
                     .build()
                     .parseSignedClaims(token);
             return true;
