@@ -58,7 +58,16 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         user.setEmail(registerDTO.getEmail());
 
-        Role role = roleRepository.findByName("User").get();
+        Role role;
+        if(registerDTO.getRole() == null || registerDTO.getRole().isEmpty()){
+            role = roleRepository.findByName("User").get();
+        } else {
+            if(registerDTO.getRole().equals("Admin")){
+                role = roleRepository.findByName("Admin").get();
+            } else {
+                role = roleRepository.findByName("User").get();
+            }
+        }
         user.setRole(role);
 
         userRepository.save(user);
