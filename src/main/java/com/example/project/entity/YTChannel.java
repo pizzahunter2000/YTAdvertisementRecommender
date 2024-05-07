@@ -15,7 +15,7 @@ public class YTChannel {
     private final UUID id;
     private String name;
 
-    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
     private List<Video> videos;
 
     @ManyToMany
@@ -42,6 +42,10 @@ public class YTChannel {
         videos = new ArrayList<>();
         tags = new ArrayList<>();
         id = null;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getName() {

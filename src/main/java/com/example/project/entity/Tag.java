@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private final UUID id;
     private String name;
 
     @ElementCollection
@@ -32,7 +32,13 @@ public class Tag {
         this.relatedTags = relatedTags;
     }
 
-    public Tag() {}
+    public Tag() {
+        this.id = null;
+    }
+
+    public UUID getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
